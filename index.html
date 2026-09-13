@@ -2,94 +2,35 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YouTube Video Downloader - garsella7</title>
+    <title>YouTube Downloader - garsella7</title>
     <style>
-        * {margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif;}
-        body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px;
-        }
-        .box {
-            background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            width: 100%; max-width: 500px; text-align: center;
-        }
-        h1 {color: #333; margin-bottom: 10px;}
-        p {color: #666; margin-bottom: 20px; font-size: 14px;}
-        input {
-            width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; margin-bottom: 15px; font-size: 16px;
-        }
-        input:focus {outline: none; border-color: #667eea;}
-        .radio-group {display: flex; justify-content: center; gap: 30px; margin-bottom: 20px;}
-        .radio-group label {cursor: pointer; font-weight: bold;}
-        button {
-            width: 100%; padding: 14px; background: #FF0000; color: white; border: none; border-radius: 8px;
-            font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s;
-        }
-        button:hover {background: #CC0000; transform: scale(1.02);}
-        button:disabled {background: #ccc; cursor: not-allowed;}
-        #status {margin-top: 15px; font-size: 14px; color: #667eea;}
-        .footer {margin-top: 20px; font-size: 12px; color: #999;}
+        body{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;display:flex;justify-content:center;align-items:center;font-family:Arial}
+        .box{background:white;padding:30px;border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,0.2);width:90%;max-width:500px;text-align:center}
+        h1{color:#333} input{width:100%;padding:12px;border:2px solid #ddd;border-radius:8px;margin:15px 0;font-size:16px}
+        .btn{display:block;width:100%;padding:14px;margin:10px 0;background:#FF0000;color:white;text-decoration:none;border-radius:8px;font-weight:bold;font-size:18px}
+        .btn:hover{background:#CC0000}
     </style>
 </head>
 <body>
     <div class="box">
         <h1>YouTube Video Downloader</h1>
         <p>download YouTube videos, convert YouTube to mp3</p>
-        
         <input type="text" id="ytlink" placeholder="Paste YouTube link here">
         
-        <div class="radio-group">
-            <label><input type="radio" name="type" value="h264" checked> MP4 Video</label>
-            <label><input type="radio" name="type" value="mp3"> MP3 Audio</label>
-        </div>
+        <a href="#" class="btn" onclick="goDownload('mp4')">Download MP4</a>
+        <a href="#" class="btn" style="background:#4CAF50" onclick="goDownload('mp3')">Download MP3</a>
         
-        <button onclick="downloadYT()">Download Here</button>
-        
-        <div id="status"></div>
-        <div class="footer">Made by garsella7.github.io</div>
+        <p style="font-size:12px;color:#999;margin-top:20px">Made by garsella7.github.io</p>
     </div>
 
-    <script>
-        async function downloadYT() {
-            const url = document.getElementById('ytlink').value;
-            const type = document.querySelector('input[name="type"]:checked').value;
-            const status = document.getElementById('status');
-            const btn = document.querySelector('button');
-
-            if (!url.includes('youtube.com') && !url.includes('youtu.be')) {
-                status.innerHTML = 'Link YouTube tidak valid!';
-                return;
-            }
-
-            btn.disabled = true;
-            status.innerHTML = 'Lagi proses... tunggu 10-30 detik';
-
-            try {
-                const response = await fetch('https://api.cobalt.tools/api/json', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
-                    body: JSON.stringify({
-                        url: url,
-                        vCodec: type === 'mp3' ? 'mp3' : 'h264',
-                        aFormat: 'mp3'
-                    })
-                });
-                
-                const data = await response.json();
-                
-                if (data.url) {
-                    window.open(data.url, '_blank');
-                    status.innerHTML = 'Berhasil! Download dimulai otomatis';
-                } else {
-                    status.innerHTML = 'Gagal: ' + (data.error || 'Link error');
-                }
-            } catch (err) {
-                status.innerHTML = 'Error koneksi. Coba lagi';
-            }
-            
-            btn.disabled = false;
-        }
-    </script>
+<script>
+function goDownload(type){
+    let url = document.getElementById('ytlink').value;
+    if(!url){ alert('Isi link dulu kak'); return; }
+    // Lempar ke situs downloader
+    let link = `https://yt1s.com/${type}?q=` + encodeURIComponent(url);
+    window.open(link, '_blank');
+}
+</script>
 </body>
 </html>
