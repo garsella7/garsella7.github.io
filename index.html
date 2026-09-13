@@ -4,21 +4,27 @@
     <meta charset="UTF-8">
     <title>YouTube Downloader - garsella7</title>
     <style>
-        body{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;display:flex;justify-content:center;align-items:center;font-family:Arial}
+        body{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;display:flex;justify-content:center;align-items:center;font-family:Arial;margin:0}
         .box{background:white;padding:30px;border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,0.2);width:90%;max-width:500px;text-align:center}
-        h1{color:#333} input{width:100%;padding:12px;border:2px solid #ddd;border-radius:8px;margin:15px 0;font-size:16px}
-        .btn{display:block;width:100%;padding:14px;margin:10px 0;background:#FF0000;color:white;text-decoration:none;border-radius:8px;font-weight:bold;font-size:18px}
-        .btn:hover{background:#CC0000}
+        h1{color:#333;margin-bottom:10px} 
+        p{color:#666;margin-bottom:20px;font-size:14px}
+        input{width:100%;padding:12px;border:2px solid #ddd;border-radius:8px;margin:15px 0;font-size:16px}
+        input:focus{outline:none;border-color:#667eea}
+        .btn{display:block;width:100%;padding:14px;margin:10px 0;background:#FF0000;color:white;text-decoration:none;border-radius:8px;font-weight:bold;font-size:18px;cursor:pointer;border:none}
+        .btn:hover{background:#CC0000;transform:scale(1.02)}
+        .btn.mp3{background:#4CAF50}
+        .btn.mp3:hover{background:#388E3C}
     </style>
 </head>
 <body>
     <div class="box">
         <h1>YouTube Video Downloader</h1>
         <p>download YouTube videos, convert YouTube to mp3</p>
+        
         <input type="text" id="ytlink" placeholder="Paste YouTube link here">
         
-        <a href="#" class="btn" onclick="goDownload('mp4')">Download MP4</a>
-        <a href="#" class="btn" style="background:#4CAF50" onclick="goDownload('mp3')">Download MP3</a>
+        <button class="btn" onclick="goDownload('video')">Download MP4</button>
+        <button class="btn mp3" onclick="goDownload('audio')">Download MP3</button>
         
         <p style="font-size:12px;color:#999;margin-top:20px">Made by garsella7.github.io</p>
     </div>
@@ -26,9 +32,16 @@
 <script>
 function goDownload(type){
     let url = document.getElementById('ytlink').value;
-    if(!url){ alert('Isi link dulu kak'); return; }
-    // Lempar ke situs downloader
-    let link = `https://yt1s.com/${type}?q=` + encodeURIComponent(url);
+    if(!url){ 
+        alert('Isi link YouTube dulu kak'); 
+        return; 
+    }
+    if(!url.includes('youtube.com') && !url.includes('youtu.be')){
+        alert('Link tidak valid!');
+        return;
+    }
+    // Lempar ke yt5s.in dengan parameter
+    let link = `https://yt5s.in/en274?url=` + encodeURIComponent(url) + `&type=` + type;
     window.open(link, '_blank');
 }
 </script>
